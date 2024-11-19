@@ -1,13 +1,12 @@
 import { useState } from "react";
-import "./App.css";
 import calcu from "./assets/images/icon-calculator.svg";
 import empty from "./assets/images/illustration-empty.svg";
 function App() {
   const [monEmi, setEonEmi] = useState(0);
-  const [mortAmt, setMortAmt] = useState(0);
-  const [mortTerm, setMortTerm] = useState(0);
-  const [intRate, setIntRate] = useState(0);
-  const [mortType, setMortType] = useState("repayment");
+  const [mortAmt, setMortAmt] = useState("");
+  const [mortTerm, setMortTerm] = useState("");
+  const [intRate, setIntRate] = useState("");
+  const [mortType, setMortType] = useState("");
   const [showRes, setShowRes] = useState(false);
   const handleMortSubmit = (e) => {
     e.preventDefault();
@@ -23,17 +22,18 @@ function App() {
   };
   const clearAllData = () => {
     setShowRes(false);
-    setMortAmt(0);
-    setMortTerm(0);
-    setIntRate(0);
-    setMortType("repayment");
+    setMortAmt("");
+    setMortTerm("");
+    setIntRate("");
+    setMortType("");
   };
+
   return (
     <>
-      <main className="w-full box-border md:h-lvh py-5 flex justify-center place-items-center bg-slate-300">
+      <main className="w-full box-border md:h-lvh py-5 flex justify-center place-items-center bg-slate-300 font-jakarta">
         <div
           id="mortCalCont"
-          className="rounded-2xl bg-white w-[350px] md:w-[700px] flex flex-col md:flex-row text-black"
+          className="rounded-2xl bg-white w-[350px] md:w-[750px] flex flex-col md:flex-row text-black"
         >
           <div id="leftPanel" className="w-full md:w-1/2 p-7">
             <form onSubmit={handleMortSubmit}>
@@ -46,12 +46,17 @@ function App() {
                 </button>
               </div>
 
-              <div className="w-full">
-                <p htmlFor="amount" className="text-sm mb-1 text-slate-50">
+              <div className="w-full flex flex-col gap-2">
+                <label
+                  htmlFor="amount"
+                  className="text-sm text-slate-50 font-bold"
+                >
                   Mortgage Amount
-                </p>
-                <div className="flex border-2 border-slate-50 rounded-md mb-4">
-                  <span className="rounded-l-md px-3 py-2 bg-slate-10">£</span>
+                </label>
+                <div className="flex border-2 border-slate-50 rounded-md mb-4 focus-within:border-primaryLime transition-all">
+                  <span className="rounded-l-md px-4 py-2 bg-slate-10 text-slate-30 font-bold transition-colors focus-within:bg-primaryLime">
+                    £
+                  </span>
                   <input
                     required
                     type="number"
@@ -59,14 +64,17 @@ function App() {
                     id="amount"
                     value={mortAmt}
                     onChange={(e) => setMortAmt(e.target.value)}
-                    className="flex-1 bg-white px-3 border-none rounded-r-md"
+                    className="flex-1 bg-white px-3 py-2 rounded-r-md text-slate-90 focus:outline-none focus:ring-2 focus:ring-primaryLime"
                   />
                 </div>
               </div>
 
               <div className="flex flex-col md:flex-row gap-4 w-full justify-between mb-4">
                 <div className="w-full md:w-1/2">
-                  <label htmlFor="years" className="text-sm text-slate-50">
+                  <label
+                    htmlFor="years"
+                    className="text-sm text-slate-50 font-bold"
+                  >
                     Mortgage Term
                   </label>
                   <div className="flex box-border mt-1 border-2 border-slate-50">
@@ -79,11 +87,16 @@ function App() {
                       onChange={(e) => setMortTerm(e.target.value)}
                       className="flex-1 md:w-3/5 px-2 bg-white border-none"
                     />
-                    <p className="px-2 py-2 bg-slate-10 font-bold">years</p>
+                    <span className="px-3 py-2 bg-slate-10 text-slate-70 font-bold">
+                      years
+                    </span>
                   </div>
                 </div>
                 <div className="w-full md:w-1/2">
-                  <label htmlFor="intRate" className="text-sm text-slate-50">
+                  <label
+                    htmlFor="intRate"
+                    className="text-sm text-slate-50 font-bold"
+                  >
                     Interest Rate
                   </label>
                   <div className="flex box-border mt-1 border-2 border-slate-50">
@@ -94,51 +107,44 @@ function App() {
                       id="intRate"
                       value={intRate}
                       onChange={(e) => setIntRate(e.target.value)}
-                      className="flex-1 md:w-3/5 px-2 bg-white border-none"
+                      className="flex-1 md:w-3/5 p-2 bg-white border-none focus:outline-none"
                     />
-                    <p className="px-2 py-2 md:p-2 bg-slate-10 font-bold">%</p>
+                    <span className="w-10 text-slate-70 bg-slate-10 font-bold flex items-center justify-center">
+                      %
+                    </span>
                   </div>
                 </div>
               </div>
 
               <div className="mb-4">
-                <label className="text-sm text-slate-50">Mortgage Type</label>
-                <div className="border-2 border-slate-50 p-2 text-sm flex place-items-center mt-1 mb-2">
-                  <input
-                    type="radio"
-                    name="mortType"
-                    className="ms-2"
-                    checked={mortType === "repayment"}
-                    onChange={() =>
-                      setMortType(
-                        mortType === "repayment" ? "intOnly" : "repayment"
-                      )
-                    }
-                  />
-                  <label className="ms-2">Repayment</label>
-                </div>
-                <div className="border-2 border-slate-50 p-2 text-sm flex place-items-center">
-                  <input
-                    type="radio"
-                    name="mortType"
-                    className="ms-2"
-                    checked={mortType === "intOnly"}
-                    onChange={() =>
-                      setMortType(
-                        mortType === "intOnly" ? "repayment" : "intOnly"
-                      )
-                    }
-                  />
-                  <label className="ms-2">Interest Only</label>
-                </div>
+                <p className="text-sm text-slate-50 mb-2 font-bold">
+                  Mortgage Type
+                </p>
+
+                {["Repayment", "Interest Only"].map((type) => (
+                  <label
+                    key={type}
+                    className="flex items-center gap-3 border-2 rounded-md cursor-pointer border-slate-50 px-4 py-2 mb-2 w-full text-slate-70 font-bold text-lg hover:border-blue-500 transition-all"
+                  >
+                    <input
+                      type="radio"
+                      name="mortType"
+                      className="scale-125 text-slate-70 font-bold text-lg"
+                      value={type}
+                      checked={mortType === type}
+                      onChange={(e) => setMortType(e.target.value)}
+                    />
+                    <span>{type}</span>
+                  </label>
+                ))}
               </div>
 
               <button
-                className="bg-primary-lime text-white rounded-full py-3 px-7 flex gap-2 place-items-center"
+                className="bg-primaryLime rounded-full w-72 flex gap-3 items-center justify-center py-3"
                 type="submit"
               >
                 <img src={calcu} alt={calcu} height={"20px"} width={"20px"} />
-                <span className="text-slate-90 font-bold">
+                <span className="text-slate-90 font-extrabold">
                   Calculate Repayments
                 </span>
               </button>
@@ -160,7 +166,7 @@ function App() {
                 <h2 className="text-sm text-slate-50 mb-2">
                   Your monthly repayments
                 </h2>
-                <h1 className="text-5xl text-primary-lime mb-5">£{monEmi}</h1>
+                <h1 className="text-5xl text-primaryLime mb-5">£{monEmi}</h1>
 
                 <hr className="mb-5" />
                 <h2 className="text-sm text-slate-50 mb-2">
